@@ -19,12 +19,7 @@ namespace FriendOrganizer.UI.ViewModel
             _eventAggregator = eventAggregator;
             Friends = new ObservableCollection<NavigationItemViewModel>();
             _eventAggregator.GetEvent<AfterFriendSavedEvent>().Subscribe(AfterFriendSaved);
-        }
-
-        private void AfterFriendSaved(AfterFriendSavedEventArgs obj)
-        {
-            var lookupIterm = Friends.Single(l => l.Id == obj.Id);
-            lookupIterm.DisplayMember = obj.DisplayMember;
+            _eventAggregator.GetEvent<AfterFriendDeletedEvent>().Subscribe(AfterFriendDeleted);
         }
 
         public async Task LoadAsync()
@@ -38,5 +33,28 @@ namespace FriendOrganizer.UI.ViewModel
         }
 
         public ObservableCollection<NavigationItemViewModel> Friends { get; }
+
+        private void AfterFriendDeleted(int friendId)
+        {
+            var friend = Friends.SingleOrDefault(f => f.Id == friendId);
+            if (friend != null)
+            {
+                Friends.Remove(friend);
+            }
+        }
+
+        private void AfterFriendSaved(AfterFriendSavedEventArgs obj)
+        {
+            var lookupIterm = Friends.SingleOrDefault(l => l.Id == obj.Id);
+            if (lookupIterm == null)
+            {
+                Friends.Add(new NavigationItemViewModel(obj.Id, obj.DisplayMember,
+                    _eventAggregator));
+            }
+            else
+            {
+                lookupIterm.DisplayMember = obj.DisplayMember;
+            }
+        }
     }
 }
