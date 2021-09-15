@@ -38,8 +38,22 @@
         </Menu>
         <view:NavigationView Grid.Row="1"
                              DataContext="{Binding NavigationViewModel}"/>
-        <ContentControl Grid.Row="1" 
+        <TabControl Grid.Row="1" 
                                Grid.Column="1" 
-                               Content="{Binding DetailViewModel}"/>
+                               ItemsSource="{Binding DetailViewModels}"
+                               SelectedItem="{Binding SelectedDetailViewModel, Mode=TwoWay}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}"/>
+                        <TextBlock Text="*" Visibility="{Binding HasChanges,
+                            Converter={StaticResource booleanToVisibilityConverter}}"/>
+                        <Button Command="{Binding CloseDetailViewCommand}"
+                                VerticalContentAlignment="Top" Margin="2"
+                                Content="x" FontSize="20"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
     </Grid>
 </Window>

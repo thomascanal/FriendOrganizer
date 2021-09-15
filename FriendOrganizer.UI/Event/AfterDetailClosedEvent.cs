@@ -2,11 +2,11 @@
 
 namespace FriendOrganizer.UI.Event
 {
-    public class OpenDetailViewEvent : PubSubEvent<OpenDetailViewEbentArgs>
+    public class AfterDetailClosedEvent : PubSubEvent<AfterDetailClosedEventArgs>
     {
     }
 
-    public class OpenDetailViewEbentArgs
+    public class AfterDetailClosedEventArgs
     {
         public int Id { get; set; }
 
