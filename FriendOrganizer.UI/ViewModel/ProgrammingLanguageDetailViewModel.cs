@@ -92,7 +92,7 @@ namespace FriendOrganizer.UI.ViewModel
             return HasChanges && ProgrammingLanguages.All(p => !p.HasErrors);
         }
 
-        protected async override void OnSaveExecute()
+        protected override async void OnSaveExecute()
         {
             try
             {
