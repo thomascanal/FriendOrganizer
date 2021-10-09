@@ -1,9 +1,9 @@
 ﻿using FriendOrganizer.UI.Event;
+using FriendOrganizer.UI.View.Services;
 using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using FriendOrganizer.UI.View.Services;
 
 namespace FriendOrganizer.UI.ViewModel
 {
@@ -88,6 +88,14 @@ namespace FriendOrganizer.UI.ViewModel
             });
         }
 
+        protected virtual void RaiseCollectionSavedEvent()
+        {
+            EventAggregator.GetEvent<AfterCollectionSavedEvent>()
+                .Publish(new AfterCollectionSavedEventArgs
+                {
+                    ViewModelName = GetType().Name
+                });
+        }
         protected virtual void OnCloseDetailViewExecute()
         {
             if (HasChanges)
